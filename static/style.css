@@ -1,5 +1,25 @@
-body { font-family: system-ui, sans-serif; max-width: 800px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; color: #222; }
 .flash { background: #eef6ff; border-left: 4px solid #3b82f6; padding: .5rem .75rem; }
 .hint { color: #666; font-size: .9rem; }
 form { display: flex; gap: .5rem; align-items: center; margin: 1rem 0; }
 button { cursor: pointer; padding: .4rem .9rem; border-radius: 4px; border: 1px solid #3b82f6; background: #3b82f6; color: #fff; }
+button:disabled { cursor: default; opacity: .55; }
+nav { margin-bottom: 1rem; }
+.empty { color: #666; font-style: italic; padding: 2rem 0; text-align: center; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: .5rem .75rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
+th { background: #f3f4f6; font-weight: 600; }
+tbody tr:hover { background: #fafafa; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.date { white-space: nowrap; }
+td a { word-break: break-all; }
+.search-form { flex-wrap: wrap; }
+.search-form label { flex-basis: 100%; font-weight: 600; }
+.search-form input { min-width: 16rem; padding: .4rem .5rem; border: 1px solid #9ca3af; border-radius: 4px; }
+.search-form a { margin-left: .25rem; }
+.inline-form { margin: 0; }
+button.danger { border-color: #dc2626; background: #fff; color: #dc2626; }
+button.danger:hover { background: #dc2626; color: #fff; }
+.pagination { display: flex; justify-content: center; align-items: center; gap: .75rem; margin-top: 1.5rem; }
+.pagination span { white-space: nowrap; }

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Изображения — Сервер картинок</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav aria-label="Навигация">
+    <a href="{{ url_for('index') }}">Загрузить</a> ·
+    <a href="{{ url_for('images_list') }}" aria-current="page">Изображения</a>
+  </nav>
+  <h1>Изображения</h1>
+  <form action="{{ url_for('images_filter') }}" method="post" class="search-form">
+    <label for="image-search">Поиск по оригинальному имени</label>
+    <input id="image-search" name="q" value="{{ query }}" type="search" autocomplete="off">
+    <button type="submit">Поиск</button>
+    {% if query %}<a href="{{ url_for('images_list') }}">Сбросить</a>{% endif %}
+  </form>
+  {% with messages = get_flashed_messages() %}
+    {% for message in messages %}<p class="flash">{{ message }}</p>{% endfor %}
+  {% endwith %}
+  {% if images %}
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Имя файла</th>
+            <th>Оригинальное имя</th>
+            <th>Размер (КБ)</th>
+            <th>Дата загрузки</th>
+            <th>Тип файла</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for image in images %}
+            <tr>
+              <td><a href="{{ url_for('serve_image', name=image.filename) }}" target="_blank" rel="noopener noreferrer">{{ image.filename }}</a></td>
+              <td>{{ image.original_name }}</td>
+              <td class="num">{{ image.size_kb }}</td>
+              <td class="date">{{ image.upload_time.strftime('%Y-%m-%d %H:%M:%S') if image.upload_time else '—' }}</td>
+              <td>{{ image.file_type }}</td>
+              <td>
+                <form action="{{ url_for('delete_image', image_id=image.id) }}" method="post" class="inline-form">
+                  <button type="submit" class="danger" aria-label="Удалить {{ image.original_name }}">Удалить</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="empty">Нет загруженных изображений</p>
+  {% endif %}
+  <nav class="pagination" aria-label="Пагинация">
+    {% if page > 1 %}
+      <a href="{{ url_for('images_list', page=page - 1, q=query) }}">Предыдущая страница</a>
+    {% else %}
+      <button type="button" disabled>Предыдущая страница</button>
+    {% endif %}
+    <span>Страница {{ page }} из {{ total_pages }}</span>
+    {% if page < total_pages %}
+      <a href="{{ url_for('images_list', page=page + 1, q=query) }}">Следующая страница</a>
+    {% else %}
+      <button type="button" disabled>Следующая страница</button>
+    {% endif %}
+  </nav>
+</body>
+</html>

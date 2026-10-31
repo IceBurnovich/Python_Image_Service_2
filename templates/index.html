@@ -2,18 +2,24 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <title>DocBox</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Сервер картинок</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>DocBox — загрузка документа</h1>
+  <nav aria-label="Навигация">
+    <a href="{{ url_for('index') }}" aria-current="page">Загрузить</a> ·
+    <a href="{{ url_for('images_list') }}">Изображения</a>
+  </nav>
+  <h1>Сервер картинок</h1>
+  <p>Изображений в базе: {{ images_count }}</p>
   {% with messages = get_flashed_messages() %}
-    {% for m in messages %}<p class="flash">{{ m }}</p>{% endfor %}
+    {% for message in messages %}<p class="flash">{{ message }}</p>{% endfor %}
   {% endwith %}
-  <form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" required>
+  <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".jpg,.jpeg,.png,.gif" required>
     <button type="submit">Загрузить</button>
   </form>
-  <p class="hint">Допустимые форматы: pdf, txt, md, docx</p>
+  <p class="hint">Допустимые форматы: jpg, jpeg, png, gif</p>
 </body>
 </html>
